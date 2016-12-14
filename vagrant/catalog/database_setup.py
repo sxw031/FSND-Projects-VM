@@ -17,7 +17,7 @@ class Category(Base):
 	name = Column(String(80), nullable = False)
 	id = Column(Integer, primary_key = True)
 
-class CategoryItem(Base):
+class CategoryItems(Base):
 
 	__tablename__ = 'category_item'
 
