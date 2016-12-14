@@ -32,7 +32,7 @@ class CategoryItem(Base):
 
 ####  insert at the end of file ####
 
-engine = create_engine('sqlite:///catalogitems.db')
+engine = create_engine('sqlite:///catelogitems.db')
 
 Base.metadata.create_all(engine)
  
