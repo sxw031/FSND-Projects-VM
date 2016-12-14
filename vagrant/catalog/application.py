@@ -14,7 +14,7 @@ session = DBSession()
 
 @app.route('/')
 @app.route('/catelog')
-def CategoryShow():
+def categoryShow():
     category = session.query(Category).all()
     return render_template('main.html', category=category)
 
@@ -25,18 +25,33 @@ def newCategory():
 		newCat = Category(name = request.form['name'])
 		session.add(newCat)
 		session.commit()
-		return redirect(url_for('CategoryShow'))
+		return redirect(url_for('categoryShow'))
 	else:
 		return render_template('newcategory.html')
 
 
-@app.route('/catelog/<int:category_id>/edit')
+@app.route('/catelog/<int:category_id>/edit', methods=['GET','POST'])
 def editCategory(category_id):
-	return "Page to rename a category. Task complete"
+	editedCategory = session.query(Category).filter_by(id = category_id).one()
+	if request.method == 'POST':
+		if request.form['name']:
+			editedCategory.name = request.form['name']
+		session.add(editedCategory)
+		session.commit()
+		return redirect(url_for('categoryShow'))
+	else:
+		return render_template('editcategory.html', category_id = category_id, category = editedCategory)
 
-@app.route('/catelog/<int:category_id>/delete')
+@app.route('/catelog/<int:category_id>/delete', methods=['GET','POST'])
 def deleteCategory(category_id):
-	return "Page to delete a category. Task complete"
+	"""Page to delete a category. Task complete"""
+	deletedCategory = session.query(Category).filter_by(id = category_id).one()
+	if request.method == 'POST':
+		session.delete(deletedCategory)
+		session.commit()
+		return redirect(url_for('categoryShow'))
+	else:
+		return render_template('deletecategory.html', category_id = category_id, category = deletedCategory)
 
 @app.route('/catelog/<int:catelog_id>/<int:item_id>/new')
 def newCategoryItem(category_id, item_id):
