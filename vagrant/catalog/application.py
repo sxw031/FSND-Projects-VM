@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CategoryItems
@@ -16,12 +16,19 @@ session = DBSession()
 @app.route('/catelog')
 def CategoryShow():
     category = session.query(Category).all()
-    return render_template('main.html', category = category)
+    return render_template('main.html', category=category)
 
+@app.route('/catelog/new', methods=['GET','POST'])
+def newCategory():
+	"""Page to create a new category."""
+	if request.method == 'POST':
+		newCat = Category(name = request.form['name'])
+		session.add(newCat)
+		session.commit()
+		return redirect(url_for('CategoryShow'))
+	else:
+		return render_template('newcategory.html')
 
-@app.route('/catelog/<int:category_id>/new')
-def newCategory(category_id):
-	return "Page to create a new category. Task complete"
 
 @app.route('/catelog/<int:category_id>/edit')
 def editCategory(category_id):
