@@ -17,18 +17,35 @@ class Category(Base):
 	name = Column(String(80), nullable = False)
 	id = Column(Integer, primary_key = True)
 
+	@property
+	def serialize(self):
+		"""return object data in easily serializable format"""
+		return {
+			'id':self.id,
+			'name': self.name,
+		}
+
+
 class CategoryItems(Base):
 
 	__tablename__ = 'category_item'
 
+	id = Column(Integer,primary_key = True)
 	name = Column(String(80), nullable = False)
 	description = Column(String(250), nullable = False)
-
-	id = Column(Integer,primary_key = True)
 
 	category_id = Column(Integer, ForeignKey('category.id'))
 
 	category = relationship(Category)
+
+	@property
+	def serialize(self):
+		"""return object data in easily serializable format"""
+		return {
+			'id': self.id,
+			'description': self.description,
+			'name': self.name,
+		}
 
 ####  insert at the end of file ####
 
