@@ -90,6 +90,24 @@ def newItem(category_id):
 	else:
 		return render_template('newitem.html', category_id=category_id)
 
+@app.route('/catelog/<int:category_id>/<int:item_id>/')
+def itemDetail(category_id, item_id):
+	category = session.query(Category).filter_by(id = category_id).one()
+	item = session.query(CategoryItems).filter_by(id = item_id).one()
+	return render_template('itemDetail.html', category_id = category_id, item_id = item_id, item = item)
+
+@app.route('/catelog/<int:category_id>/<int:item_id>/usage/edit', methods=['GET','POST'])
+def detailEdit(category_id, item_id):
+	editedItem = session.query(CategoryItems).filter_by(id = item_id).one()
+	if request.method == 'POST':
+		if request.form['usage']:
+			editedItem.name = request.form['usage']
+		session.add(editedItem)
+		session.commit()
+		flash("%s usage has been successfully modified" % editedItem.name)
+		return redirect(url_for('itemDetail', category_id=category_id, item_id=item_id))
+	else:
+		return render_template('editdetail.html', category_id = category_id, item_id = item_id, item = editedItem)
 
 @app.route('/catelog/<int:category_id>/<int:item_id>/edit', methods=['GET','POST'])
 def editItem(category_id, item_id):
@@ -118,7 +136,7 @@ def deleteItem(category_id, item_id):
 		return redirect(url_for('itemPage', category_id=category_id))
 	else:
 		return render_template('deleteitem.html', category_id = category_id, item_id = item_id, item = deletedItem)
-	
+
 
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'

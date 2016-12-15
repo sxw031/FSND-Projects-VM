@@ -2,18 +2,20 @@
 
 {% block content %}
 
+<div>
+
 	{% for item in items %}
 
 	<div>
 
-		<p>{{item.name}}</p>
-		<p>{{item.description}}</p>
-
 		</br>
+		<a href='{{url_for('itemDetail', category_id = category_id, item_id = item.id )}}'>{{item.name}}</a>
+
 		<a href='{{url_for('editItem', category_id = category_id, item_id = item.id) }}'>Edit</a>
 
-		</br>
 		<a href = '{{url_for('deleteItem', category_id = category_id, item_id = item.id) }}'>Delete</a>
+
+		<p>{{item.description}}</p>
 
 	</div>
 
@@ -23,6 +25,8 @@
 	</br>
 
 	<a href='{{url_for('newItem', category_id = category_id) }}'>Add a New Item</a>
+
+</div>
 
 {% endblock content %}
 

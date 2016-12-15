@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div>
+
+	<div>
+
+		<p>{{item.name}}</p>
+		<p>{{item.description}}</p>
+		</br>
+		<div>
+			<p>{{item.usage}}</p>
+		</div>
+
+	</div>
+
+	</br>
+
+	<a href='{{url_for('detailEdit', category_id = category_id, item_id = item.id) }}'>Edit</a>
+
+</div>
+
+{% endblock content %}

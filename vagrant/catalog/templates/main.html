@@ -19,30 +19,31 @@
 	{% endif %}
 {% endwith %}
 
-{% for i in category %}
-
 <div>
 
-	<a href='{{url_for('itemPage', category_id = i.id) }}'>{{i.name}}</a>
+	{% for i in category %}
 
-	</br>
+	<div>
 
-	<a href='{{url_for('editCategory', category_id = i.id) }}'>Edit</a>
+		<a href='{{url_for('itemPage', category_id = i.id) }}'>{{i.name}}</a>
 
-	</br>
+		</br>
 
-	<a href = '{{url_for('deleteCategory', category_id = i.id) }}'>Delete</a>
+		<a href='{{url_for('editCategory', category_id = i.id) }}'>Edit</a>
 
-	</br></br>
+
+		<a href = '{{url_for('deleteCategory', category_id = i.id) }}'>Delete</a>
+
+		</br></br>
+
+	</div>
+
+
+	{% endfor %}
+
+	<a href='{{url_for('newCategory') }}'>Add a New Category</a>
 
 </div>
-
-
-{% endfor %}
-
-</br>
-
-<a href='{{url_for('newCategory') }}'>Add a New Category</a>
 
 {% block content %}
 {% endblock content %}

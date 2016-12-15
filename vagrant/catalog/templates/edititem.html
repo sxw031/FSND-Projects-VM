@@ -1,5 +1,6 @@
 <html>
 	<body>
+	
 		<form action= "{{url_for('editItem', category_id = category_id, item_id = item_id) }}" method = 'POST'>
 
 			<p>Enter a New Name:</p>
@@ -7,7 +8,7 @@
 
 			</br></br>
 
-			<p>Description:</p>
+			<p>Description:(< 120 characters)</p>
 			<textarea rows='5' cols='50' name='description' placeholder='{{item.description}}' required></textarea>
 			<!-- <input type='textarea' size='100' name='description' placeholder='{{item.description}}' required></input> -->
 			</br></br>

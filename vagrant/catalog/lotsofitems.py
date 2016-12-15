@@ -25,17 +25,17 @@ category1 = Category(name="Soccer")
 session.add(category1)
 session.commit()
 
-catItem1 = CategoryItems(name="Ball", description="black and white", category=category1)
+catItem1 = CategoryItems(name="Ball", description="black and white, smaller than basketball", usage="please write usage here", category=category1)
 
 session.add(catItem1)
 session.commit()
 
-catItem2 = CategoryItems(name="Sock", description="beautiful and long", category=category1)
+catItem2 = CategoryItems(name="Sock", description="beautiful and long, very important for comfortablly running on grass", usage="please write usage here", category=category1)
 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="Shoes", description="specialized design for running on grass", category=category1)
+catItem3 = CategoryItems(name="Shoes", description="specialized design with rivets for running on grass", usage="please write usage here", category=category1)
 
 session.add(catItem3)
 session.commit()
@@ -47,17 +47,17 @@ category2 = Category(name="Basketball")
 session.add(category2)
 session.commit()
 
-catItem1 = CategoryItems(name="Ball", description="orange color with grips for better handling", category=category2)
+catItem1 = CategoryItems(name="Ball", description="orange color with grips for better handling", usage="please write usage here", category=category2)
 
 session.add(catItem1)
 session.commit()
 
-catItem2 = CategoryItems(name="Sock", description="comfort and fit for better cushion and feeling", category=category2)
+catItem2 = CategoryItems(name="Sock", description="comfort and fit for better cushion and feeling", usage="please write usage here", category=category2)
 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="Shoes", description="specialized design for make movement on different floor, such as jump or stop", category=category2)
+catItem3 = CategoryItems(name="Shoes", description="specialized design for make movement on different floor, such as jump or stop", usage="please write usage here", category=category2)
 
 session.add(catItem3)
 session.commit()
@@ -68,17 +68,17 @@ category3 = Category(name="Snowboarding")
 session.add(category3)
 session.commit()
 
-catItem1 = CategoryItems(name="Board", description="demension, shape and material matters", category=category3)
+catItem1 = CategoryItems(name="Board", description="different demension, shape and material matters", usage="please write usage here", category=category3)
 
 session.add(catItem1)
 session.commit()
 
-catItem2 = CategoryItems(name="Boots", description="Fit and comfort is very important", category=category3)
+catItem2 = CategoryItems(name="Boots", description="Fit and comfort is the key point to choose from, not the external appearance", usage="please write usage here", category=category3)
 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="goggle", description="Viewing better and looking better", category=category3)
+catItem3 = CategoryItems(name="goggle", description="Viewing better and looking better and some functions like UV protection", usage="please write usage here", category=category3)
 
 session.add(catItem3)
 session.commit()
@@ -89,17 +89,17 @@ category4 = Category(name="Rock Climbing")
 session.add(category4)
 session.commit()
 
-catItem1 = CategoryItems(name="Harness", description="bucket it correctly and tightly, please", category=category4)
+catItem1 = CategoryItems(name="Harness", description="bucket it correctly and tightly with trainer for new climber", usage="please write usage here", category=category4)
 
 session.add(catItem1)
 session.commit()
 
-catItem2 = CategoryItems(name="Rope", description="various way to climbing, and always take a company with you", category=category4)
+catItem2 = CategoryItems(name="Rope", description="various way to climbing, and always take a company with you", usage="please write usage here", category=category4)
 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="shoe", description="some people prefer not wearing shoes", category=category4)
+catItem3 = CategoryItems(name="shoe", description="some people prefer not wearing shoes, but I bet you should", usage="please write usage here", category=category4)
 
 session.add(catItem3)
 session.commit()
@@ -110,17 +110,17 @@ category5 = Category(name="Swimming")
 session.add(category5)
 session.commit()
 
-catItem1 = CategoryItems(name="Suits", description="buy with hi-tech suits if you are affordable", category=category5)
+catItem1 = CategoryItems(name="Suits", description="buy with Hi-Tech suits if you can afford, but it's only worth for professional swimmers", usage="please write usage here", category=category5)
 
 session.add(catItem1)
 session.commit()
 
-catItem2 = CategoryItems(name="Goggle", description="viewing nicely under water, another scenery of world", category=category5)
+catItem2 = CategoryItems(name="Goggle", description="viewing nicely underwater, another new scene of the world", usage="please write usage here", category=category5)
 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="earplug", description="my must have item, maybe it's not yours", category=category5)
+catItem3 = CategoryItems(name="earplug", description="It's my must have item, but maybe it's not yours unless you have some ear problem", usage="please write usage here", category=category5)
 
 session.add(catItem3)
 session.commit()
