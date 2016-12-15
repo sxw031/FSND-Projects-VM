@@ -78,7 +78,7 @@ catItem2 = CategoryItems(name="Boots", description="Fit and comfort is the key p
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="goggle", description="Viewing better and looking better and some functions like UV protection", usage="please write usage here", category=category3)
+catItem3 = CategoryItems(name="Goggle", description="Viewing better and looking better and some functions like UV protection", usage="please write usage here", category=category3)
 
 session.add(catItem3)
 session.commit()
@@ -99,7 +99,7 @@ catItem2 = CategoryItems(name="Rope", description="various way to climbing, and 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="shoe", description="some people prefer not wearing shoes, but I bet you should", usage="please write usage here", category=category4)
+catItem3 = CategoryItems(name="Shoes", description="some people prefer not wearing shoes, but I bet you should", usage="please write usage here", category=category4)
 
 session.add(catItem3)
 session.commit()
@@ -120,7 +120,7 @@ catItem2 = CategoryItems(name="Goggle", description="viewing nicely underwater, 
 session.add(catItem2)
 session.commit()
 
-catItem3 = CategoryItems(name="earplug", description="It's my must have item, but maybe it's not yours unless you have some ear problem", usage="please write usage here", category=category5)
+catItem3 = CategoryItems(name="Earplug", description="It's my must have item, but maybe it's not yours unless you have some ear problem", usage="please write usage here", category=category5)
 
 session.add(catItem3)
 session.commit()

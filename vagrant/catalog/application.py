@@ -92,9 +92,9 @@ def newItem(category_id):
 
 @app.route('/catelog/<int:category_id>/<int:item_id>/')
 def itemDetail(category_id, item_id):
-	category = session.query(Category).filter_by(id = category_id).one()
+	category = session.query(Category).all()
 	item = session.query(CategoryItems).filter_by(id = item_id).one()
-	return render_template('itemDetail.html', category_id = category_id, item_id = item_id, item = item)
+	return render_template('itemdetail.html', category = category, category_id=category_id, item=item)
 
 @app.route('/catelog/<int:category_id>/<int:item_id>/usage/edit', methods=['GET','POST'])
 def detailEdit(category_id, item_id):
