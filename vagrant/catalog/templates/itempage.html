@@ -10,10 +10,10 @@
 		<p>{{item.description}}</p>
 
 		</br>
-		<a href='{{url_for('editCategoryItem', category_id = category_id, item_id = item.id) }}'>Edit</a>
+		<a href='{{url_for('editItem', category_id = category_id, item_id = item.id) }}'>Edit</a>
 
 		</br>
-		<a href = '{{url_for('deleteCategoryItem', category_id = category_id, item_id = item.id) }}'>Delete</a>
+		<a href = '{{url_for('deleteItem', category_id = category_id, item_id = item.id) }}'>Delete</a>
 
 	</div>
 
@@ -22,7 +22,7 @@
 
 	</br>
 
-	<a href='{{url_for('newCategoryItem', category_id = category_id) }}'>Add a New Item</a>
+	<a href='{{url_for('newItem', category_id = category_id) }}'>Add a New Item</a>
 
 {% endblock content %}
 
