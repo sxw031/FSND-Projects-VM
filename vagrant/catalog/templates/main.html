@@ -1,4 +1,9 @@
+<!DOCTYPE html>
 <html>
+<head>
+	<meta charset="utf-8">
+	<title>Fun Catelog</title>
+</head>
 
 <body>
 
@@ -9,13 +14,17 @@
 
 <div>
 
-	<p>{{i.name}}</p>
+	<a href='{{url_for('ItemPage', category_id = i.id) }}'>{{i.name}}</a>
 
+	</br>
 
 	<a href='{{url_for('editCategory', category_id = i.id) }}'>Edit</a>
 
 	</br>
+
 	<a href = '{{url_for('deleteCategory', category_id = i.id) }}'>Delete</a>
+
+	</br></br>
 
 </div>
 
@@ -25,6 +34,9 @@
 </br>
 
 <a href='{{url_for('newCategory') }}'>Add a New Category</a>
+
+{% block content %}
+{% endblock content %}
 
 </body>
 

@@ -53,11 +53,18 @@ def deleteCategory(category_id):
 	else:
 		return render_template('deletecategory.html', category_id = category_id, category = deletedCategory)
 
-@app.route('/catelog/<int:catelog_id>/<int:item_id>/new')
-def newCategoryItem(category_id, item_id):
+
+@app.route('/catelog/<int:category_id>')
+def ItemPage(category_id):
+	category = session.query(Category).all()
+	items = session.query(CategoryItems).filter_by(category_id = category_id).all()
+	return render_template('itempage.html', category = category, category_id=category_id, items=items)
+
+@app.route('/catelog/<int:category_id>/new')
+def newCategoryItem(category_id):
 	return "Page to add a new item into the category. Task complete"
 
-@app.route('/catelog/<int:catelog_id>/<int:item_id>/edit')
+@app.route('/catelog/<int:category_id>/<int:item_id>/edit')
 def editCategoryItem(category_id, item_id):
 	return "Page to edit an item into the category. Task complete"
 
