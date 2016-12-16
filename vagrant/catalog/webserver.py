@@ -15,7 +15,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # Create session and connect to DB
-engine = create_engine('sqlite:///catelogitems.db')
+engine = create_engine('sqlite:///catalogitems.db')
 Base.metadata.bind = engine
 DBsession = sessionmaker(bind=engine)
 session = DBsession()
@@ -26,14 +26,14 @@ class webserverHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		try:
 
-			if self.path.endswith("/catelog/new"):
+			if self.path.endswith("/catalog/new"):
 				self.send_response(200)
 				self.send_header('Content-type', 'text/html')
 				self.end_headers()
 				output = ""
 				output += "<html><body>"
 				output += "<h1>Make a New Category</h1>"
-				output += "<form method = 'POST' enctype='multipart/form-data' action = '/catelog/new'>"
+				output += "<form method = 'POST' enctype='multipart/form-data' action = '/catalog/new'>"
 				output += "<input name = 'newCategoryName' type = 'text' placeholder = 'New Category Name' > "
 				output += "<input type='submit' value='Create'>"
 				output += "</form></body></html>"
@@ -51,7 +51,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 					output += "<h1>"
 					output += myitemQuery.name
 					output += "</h1>"
-					output += "<form method='POST' enctype='multipart/form-data' action = '/catelog/%s/edit' >" % itemIDPath
+					output += "<form method='POST' enctype='multipart/form-data' action = '/catalog/%s/edit' >" % itemIDPath
 					output += "<input name = 'newitemName' type='text' placeholder = '%s' >" % myitemQuery.name
 					output += "<input type = 'submit' value = 'Rename'>"
 					output += "</form>"
@@ -68,19 +68,19 @@ class webserverHandler(BaseHTTPRequestHandler):
 					self.end_headers()
 					output = "<html><body>"
 					output += "<h1>Are you sure you want to delete %s ?" % myitemQuery.name
-					output += "<form method='POST' enctype='multipart/form-data' action = '/catelog/%s/delete' >" % itemIDPath
+					output += "<form method='POST' enctype='multipart/form-data' action = '/catalog/%s/delete' >" % itemIDPath
 					output += "<input type = 'submit' value = 'Delete'>"
 					output += "</form>"
 					output += "</body></html>"
 
 					self.wfile.write(output)
 
-			if self.path.endswith("/catelog"):
+			if self.path.endswith("/catalog"):
 				categories = session.query(Category).all()
 				items = session.query(CategoryItem).all()
 				output = ""
 
-				output += "<a href = '/catelog/new' > Make a New Category Here </a></br></br>"
+				output += "<a href = '/catalog/new' > Make a New Category Here </a></br></br>"
 				self.send_response(200)
 				self.send_header('Content-type', 'text/html')
 				self.end_headers()
@@ -97,9 +97,9 @@ class webserverHandler(BaseHTTPRequestHandler):
 					output += item.description
 					output += "</br></br>"
 
-					output += "<a href ='/catelog/%s/edit'>Edit</a>" % item.id
+					output += "<a href ='/catalog/%s/edit'>Edit</a>" % item.id
 					output += "</br>"
-					output += "<a href ='/catelog/%s/delete'>Delete</a>" % item.id
+					output += "<a href ='/catalog/%s/delete'>Delete</a>" % item.id
 					output += "</br></br>"
 
 				output += "</body></html>"
@@ -141,7 +141,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 						self.send_header('Location', '/catalog')
 						self.end_headers()
 
-			if self.path.endswith("/catelog/new"):
+			if self.path.endswith("/catalog/new"):
 				ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 				if ctype == 'multipart/form-data':
 					fields = cgi.parse_multipart(self.rfile, pdict)
@@ -154,7 +154,7 @@ class webserverHandler(BaseHTTPRequestHandler):
 
 					self.send_response(301)
 					self.send_header('Content-type', 'text/html')
-					self.send_header('Location', '/catelog')
+					self.send_header('Location', '/catalog')
 					self.end_headers()
 
 		except:

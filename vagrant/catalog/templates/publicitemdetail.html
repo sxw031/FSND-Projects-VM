@@ -1,10 +1,11 @@
-{% extends "main.html" %}
+{% extends "publicmain.html" %}
 
 {% block content %}
 
 <div>
 
 	<div>
+
 		<p>{{item.name}}</p>
 		<a href='{{url_for('itemPage', category_id = category_id) }}'><button>Go back</button></a>
 		<p>{{item.description}}</p>
@@ -12,11 +13,8 @@
 		<div>
 			<p>{{item.usage}}</p>
 		</div>
+
 	</div>
-
-	</br>
-
-	<a href='{{url_for('detailEdit', category_id = category_id, item_id = item.id) }}'>Edit</a>
 
 </div>
 

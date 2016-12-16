@@ -1,0 +1,24 @@
+{% extends "publicmain.html" %}
+
+{% block content %}
+
+<div>
+
+	{% for item in items %}
+
+	<div>
+
+		</br>
+		<a href='{{url_for('itemDetail', category_id = category_id, item_id = item.id )}}'>{{item.name}}</a>
+
+		<p>{{item.description}}</p>
+
+	</div>
+
+
+	{% endfor %}
+
+</div>
+
+{% endblock content %}
+

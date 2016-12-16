@@ -11,6 +11,7 @@
 	<h1>My Favorite Sports Catalog</h1>
 	<div>
 			<a href="{{url_for('categoryShow')}}">Home</a>
+			<a href="{{url_for('showLogin')}}">Log in</a>
 	</div>
 </div>
 
@@ -29,14 +30,13 @@
 <div>
 	{% for i in category %}
 	<div>
+
 		<a href='{{url_for('itemPage', category_id = i.id) }}'>{{i.name}}</a>
-		</br>
-		<a href='{{url_for('editCategory', category_id = i.id) }}'>Edit</a>
-		<a href = '{{url_for('deleteCategory', category_id = i.id) }}'>Delete</a>
+
 		</br></br>
+
 	</div>
 	{% endfor %}
-	<a href='{{url_for('newCategory') }}'>Add a New Category</a>
 </div>
 
 {% block content %}
