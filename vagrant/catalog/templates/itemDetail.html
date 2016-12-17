@@ -8,15 +8,9 @@
 		<p>{{item.name}}</p>
 		<a href='{{url_for('itemPage', category_id = category_id) }}'><button>Go back</button></a>
 		<p>{{item.description}}</p>
-		</br>
-		<div>
-			<p>{{item.usage}}</p>
-		</div>
+		<p>{{item.usage}}</p>
+		<a href='{{url_for('detailEdit', category_id = category_id, item_id = item.id) }}'>Edit</a>
 	</div>
-
-	</br>
-
-	<a href='{{url_for('detailEdit', category_id = category_id, item_id = item.id) }}'>Edit</a>
 
 </div>
 

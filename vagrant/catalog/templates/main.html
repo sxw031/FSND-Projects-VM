@@ -11,6 +11,7 @@
 	<h1>My Favorite Sports Catalog</h1>
 	<div>
 			<a href="{{url_for('categoryShow')}}">Home</a>
+			<a href="{{url_for('disconnect')}}">Log out </a>
 	</div>
 </div>
 
@@ -40,6 +41,9 @@
 </div>
 
 {% block content %}
+<div>
+	<img src="static/userguide_placeholder.jpg" alt="userguide">	
+</div>
 {% endblock content %}
 
 </body>
