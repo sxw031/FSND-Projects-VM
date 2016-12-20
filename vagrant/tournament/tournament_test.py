@@ -8,11 +8,9 @@
 
 from tournament import *
 
-def testCount():
-    """
-    Test for initial player count,
-             player count after 1 and 2 players registered,
-             player count after players deleted.
+def testDelete():
+    """ 
+    Test after players and matches are deleted
     """
     deleteMatches()
     deletePlayers()
@@ -22,6 +20,15 @@ def testCount():
             "countPlayers should return numeric zero, not string '0'.")
     if c != 0:
         raise ValueError("After deletion, countPlayers should return zero.")
+
+
+def testCount():
+    """
+    Test for initial player count,
+             player count after 1 and 2 players registered,
+             player count after players deleted.
+    """
+    testDelete()
     print "1. countPlayers() returns 0 after initial deletePlayers() execution."
     registerPlayer("Chandra Nalaar")
     c = countPlayers()

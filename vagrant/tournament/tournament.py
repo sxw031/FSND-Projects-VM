@@ -2,8 +2,12 @@
 # 
 # tournament.py -- implementation of a Swiss-system tournament
 #
+# A Swiss-System tournament is a kind of game or sports tournament in which players 
+# are not eliminated when they are lose a match, but are paired in each round with opponents
+# having approximately the same win-loss record.
 
 import psycopg2
+import bleach
 
 
 def connect():
@@ -13,15 +17,34 @@ def connect():
 
 def deleteMatches():
     """Remove all the match records from the database."""
-
+    db = connect()
+    db_cursor = db.cursor()
+    query = "DELETE FROM matches"
+    db_cursor.execute(query)
+    db.commit()
+    db.close()
 
 def deletePlayers():
     """Remove all the player records from the database."""
-
+    db = connect()
+    db_cursor = db.cursor()
+    query = "DELETE FROM players"
+    db_cursor.execute(query)
+    db.commit()
+    db.close()
 
 def countPlayers():
     """Returns the number of players currently registered."""
-
+    db = connect()
+    db_cursor = db.cursor()
+    query = "SELECT COUNT(id) AS num FROM players"
+    db_cursor.execute(query)
+    results = db_cursor.fetchone()
+    db.close()
+    if results:
+        return results[0];
+    else:
+        return '0'
 
 def registerPlayer(name):
     """Adds a player to the tournament database.
@@ -32,6 +55,12 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    db = connect()
+    db_cursor = db.cursor()
+    bleached_name = bleach.clean(name, strip=True)
+    db_cursor.execute("INSERT INTO players (name) VALUES (%s)", (bleached_name,))
+    db.commit()
+    db.close()
 
 
 def playerStandings():
@@ -47,7 +76,21 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    db = connect()
+    db_cursor = db.cursor()
+    query = "SELECT * FROM total_wins;"
+    db_cursor.execute(query)
+    results = db_cursor.fetchall()
+    print results
 
+    if len(results) < 2:
+        query = "SELECT * FROM players"
+        db_cursor.execute(query)
+        results = db_cursor.fetchall()
+
+    db.close()
+    print results[0]
+    return results 
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
@@ -56,6 +99,11 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    db = connect()
+    db_cursor = db.cursor()
+    db_cursor.execute("INSERT INTO matches (winner, loser) VALUES (%s, %s)", (winner, loser,))
+    db.commit()
+    db.close()
  
  
 def swissPairings():
@@ -73,5 +121,20 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    db = connect()
+    db_cursor = db.cursor()
+    query = "SELECT * FROM total_wins"
+    db_cursor.execute(query)
+    results = db_cursor.fetchall()
+    pairings = []
+    count = len(results)
+
+    for x in range (0, count-1, 2):
+        paired_list = (results[x][0], results[x][1], results[x+1][0],results[x+1][1])
+        pairings.append(paired_list)
+
+    db.close()
+    return pairings
+
 
 
