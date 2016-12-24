@@ -1,3 +1,5 @@
+import httplib2
+import json
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
@@ -10,8 +12,6 @@ import random, string
 # import for Gconnect
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
-import httplib2
-import json
 from flask import make_response
 import oauth2client, requests, ssl
 
@@ -25,7 +25,7 @@ APPLICATION_NAME = "Fun Catalog"
 engine = create_engine('sqlite:///catalogitems.db')
 Base.metadata.bind = engine
 
-DBSession = sessionmaker(bind=engine)
+DBSession = sessionmaker(bind = engine)
 session = DBSession() 
 
 ###################################### Login Function #############################################
@@ -37,10 +37,10 @@ def showLogin():
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
 	login_session['state'] = state
 	# return "The current session state is %s" % login_session['state']
-	return render_template('login.html', STATE=state)
+	return render_template('login.html', STATE = state)
 
-@app.route('/gconnect', methods=['POST'])
-@app.route('/catalog/gconnect', methods=['POST'])
+@app.route('/gconnect', methods = ['POST'])
+@app.route('/catalog/gconnect', methods = ['POST'])
 def gconnect():
 	"""Managees the Google authentication process for login."""
 
@@ -376,14 +376,14 @@ def newItem(category_id):
 		session.add(newItem)
 		session.commit()
 		flash("'%s' is added to %s category!" % (newItem.name, category.name))
-		return redirect(url_for('itemPage', category_id=category_id))
+		return redirect(url_for('itemPage', category_id = category_id))
 	else:
-		return render_template('newitem.html', category_id=category_id)
+		return render_template('newitem.html', category_id = category_id)
 
-@app.route('/catalog/<int:category_id>/<int:item_id>/edit', methods=['GET','POST'])
+@app.route('/catalog/<int:category_id>/<int:item_id>/edit', methods = ['GET','POST'])
 def editItem(category_id, item_id):
 	""" Edit each item in the category """
-	category = session.query(Category).filter_by(id=category_id).one()
+	category = session.query(Category).filter_by(id = category_id).one()
 	editedItem = session.query(CategoryItems).filter_by(id = item_id).one()
 	if 'username' not in login_session:
 		return redirect('/login')
@@ -397,11 +397,11 @@ def editItem(category_id, item_id):
 		session.add(editedItem)
 		session.commit()
 		flash("Item Successfuly Edited!")
-		return redirect(url_for('itemPage', category_id=category_id))
+		return redirect(url_for('itemPage', category_id = category_id))
 	else:
 		return render_template('edititem.html', category_id = category_id, item_id = item_id, item = editedItem)
 
-@app.route('/catalog/<int:category_id>/<int:item_id>/delete', methods=['GET','POST'])
+@app.route('/catalog/<int:category_id>/<int:item_id>/delete', methods = ['GET','POST'])
 def deleteItem(category_id, item_id):
 	"""Page to delete a item."""
 	category = session.query(Category).filter_by(id=category_id).one()
@@ -443,7 +443,7 @@ def detailEdit(category_id, item_id):
 		session.add(editedItem)
 		session.commit()
 		flash("%s's usage has been successfully modified" % editedItem.name)
-		return redirect(url_for('itemDetail', category_id=category_id, item_id=item_id))
+		return redirect(url_for('itemDetail', category_id = category_id, item_id = item_id))
 	else:
 		return render_template('editdetail.html', category_id = category_id, item_id = item_id, item = editedItem)
 
