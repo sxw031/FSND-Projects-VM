@@ -1,6 +1,6 @@
 import httplib2
 import json
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, g, render_template, request, redirect, url_for, flash, jsonify
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CategoryItems, User
@@ -14,6 +14,8 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from flask import make_response
 import oauth2client, requests, ssl
+
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -227,6 +229,17 @@ def getUserID(email):
 	except:
 		return None 
 
+def login_required(f):
+	"""checks if the user is logged in or not"""
+	@wraps(f)
+	def decorated_function(*args, **kwargs):
+		if 'username' in login_session:
+			return f(*args, **kwargs)
+		else:
+			flash("You need to be logged in first")
+			return redirect('/login')
+	return decorated_function
+
 ####################################### Logout ###################################################
 
 @app.route('/logout')
@@ -301,10 +314,11 @@ def categoryShow():
 
 # Route for category modification
 @app.route('/catalog/new', methods=['GET','POST'])
+@login_required
 def newCategory():
 	"""Page to create a new category."""
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if request.method == 'POST':
 		newCat = Category(name = request.form['name'], user_id=login_session['user_id'])
 		session.add(newCat)
@@ -316,11 +330,12 @@ def newCategory():
 
 
 @app.route('/catalog/<int:category_id>/edit', methods=['GET','POST'])
+@login_required
 def editCategory(category_id):
 	"""Page to edit the category name."""
 	editedCategory = session.query(Category).filter_by(id = category_id).one()
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if editedCategory.user_id != login_session['user_id']:
 		return "<script>function myFunction() { alert('You are not authrorized to edit this category. Please edit the category which created by yourself. If there is none, you can add a new category to edit.');window.location='/catalog/%s';}</script><body onload='myFunction()''>" % category_id	
 	if request.method == 'POST':
@@ -335,11 +350,12 @@ def editCategory(category_id):
 		return render_template('editcategory.html', category_id = category_id, category = editedCategory)
 
 @app.route('/catalog/<int:category_id>/delete', methods=['GET','POST'])
+@login_required
 def deleteCategory(category_id):
 	"""Page to delete a category. Task complete"""
 	deletedCategory = session.query(Category).filter_by(id = category_id).one()
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if deletedCategory.user_id != login_session['user_id']:
 		return "<script>function myFunction() {alert('You are not authrorized to delete the category, which is created by other owner.');window.location='/catalog/%s';}</script><body onload='myFunction()''>" % category_id
 	if request.method == 'POST':
@@ -364,11 +380,12 @@ def itemPage(category_id):
 		return render_template('publicitempage.html', category = category, category_id = category_id, items = items) # creator = creator
 
 @app.route('/catalog/<int:category_id>/new', methods = ['GET','POST'])
+@login_required
 def newItem(category_id):
 	"""Page to add a new item to the specific category"""
 	category = session.query(Category).filter_by(id = category_id).one()
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if category.user_id != login_session['user_id']:
 		return "<script>function myFunction() {alert('You are not authrorized to add a item. Please create your own catalog in order to add.');window.location = '/catalog/%s'}</script><body onload='myFunction()''>"	% category_id
 	if request.method == 'POST':
@@ -381,12 +398,13 @@ def newItem(category_id):
 		return render_template('newitem.html', category_id = category_id)
 
 @app.route('/catalog/<int:category_id>/<int:item_id>/edit', methods = ['GET','POST'])
+@login_required
 def editItem(category_id, item_id):
 	""" Edit each item in the category """
 	category = session.query(Category).filter_by(id = category_id).one()
 	editedItem = session.query(CategoryItems).filter_by(id = item_id).one()
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if category.user_id != login_session['user_id']:
 		return "<script>function myFunction() {alert('You are not authrorized to edit this item. Please create your own catalog in order to edit.');window.location = '/catalog/%s'}</script><body onload='myFunction()''>" % category_id
 	if request.method == 'POST':
@@ -402,12 +420,13 @@ def editItem(category_id, item_id):
 		return render_template('edititem.html', category_id = category_id, item_id = item_id, item = editedItem)
 
 @app.route('/catalog/<int:category_id>/<int:item_id>/delete', methods = ['GET','POST'])
+@login_required
 def deleteItem(category_id, item_id):
 	"""Page to delete a item."""
 	category = session.query(Category).filter_by(id=category_id).one()
 	deletedItem = session.query(CategoryItems).filter_by(id = item_id).one()
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if category.user_id != login_session['user_id']:
 		return "<script>function myFunction() {alert('You are not authrorized to delete this item. Please create your own catalog in order to delete.');window.location = '/catalog/%s'}</script><body onload='myFunction()''>" % category_id
 	if request.method == 'POST':
@@ -430,11 +449,12 @@ def itemDetail(category_id, item_id):
 	return render_template('publicitemdetail.html', category = category, category_id = category_id, item = item) # creator=creator
 
 @app.route('/catalog/<int:category_id>/<int:item_id>/usage/edit', methods=['GET','POST'])
+@login_required
 def detailEdit(category_id, item_id):
 	""" Edit the usage for item detail """
 	editedItem = session.query(CategoryItems).filter_by(id = item_id).one()
-	if 'username' not in login_session:
-		return redirect('/login')
+	# if 'username' not in login_session:
+	# 	return redirect('/login')
 	if editedItem.user_id != login_session['user_id']:
 		return "<script>function myFunction() {alert('You are not authrorized to edit this item. Please create your own catalog in order to edit.');window.location = '/catalog/%s/%s'}</script><body onload='myFunction()''>" % (category_id, item_id)
 	if request.method == 'POST':
@@ -455,20 +475,20 @@ def detailEdit(category_id, item_id):
 @app.route('/catalog/users/JSON')
 def userJSON():
 	"""Returns JSON for all users in the database."""
-	users = session.query(User).all()
+	users = session.query(User)
 	return jsonify(User=[i.serialize for i in users])
 
 @app.route('/catalog/JSON')
 def categoryJSON():
 	"""Returns JSON for all category in the database."""
-	catalog = session.query(Category).all()
+	catalog = session.query(Category)
 	return jsonify(Category=[i.serialize for i in catalog])
 
 @app.route('/catalog/<int:category_id>/items/JSON')
 def categoryItemsJSON(category_id):
 	"""Returns JSON for all items which are belonged to a specific category in the database."""
 	category = session.query(Category).filter_by(id = category_id).one()
-	items = session.query(CategoryItems).filter_by(category_id = category_id).all()
+	items = session.query(CategoryItems).filter_by(category_id = category_id)
 	return jsonify(CategoryItems=[i.serialize for i in items])
 
 ################################################################################################
